@@ -1,4 +1,4 @@
-# Leave Management
+# Core Leave Management
 .NET Core Leave Management Application for educational purposes. Thos [roject implements:
 - .NET Core 3.1
 - AutoMapper
