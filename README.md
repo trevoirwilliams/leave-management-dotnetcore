@@ -6,4 +6,4 @@
 - Repository Pattern
 - Identity and Authentication
 
-Is built in part for Udemy/SkillShare/Uthena course entitled: "End to End .Net Core 3.1 and Entity Framework Development"
+Is built in part for Udemy/SkillShare/Uthena course entitled: "Complete Core 3.1 and Entity Framework Development"
