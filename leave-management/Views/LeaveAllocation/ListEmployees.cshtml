@@ -1,0 +1,48 @@
+﻿@model IEnumerable<leave_management.Models.EmployeeVM>
+
+@{
+    ViewData["Title"] = "ListEmployees";
+}
+
+<h1>List Employees</h1>
+
+
+<table id="tblData" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.Id">
+                    <i class="fa fa-search"></i> Details
+                </a>
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })*@
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+

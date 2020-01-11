@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using leave_management.Data
+@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,9 +41,9 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <a class="dropdown-item text-dark" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
-                                        <a class="dropdown-item text-dark" href="#">Leave Allocations</a>
+                                        <a class="dropdown-item text-dark" asp-controller="LeaveAllocation" asp-action="Index">Leave Allocations</a>
                                         <a class="dropdown-item text-dark" href="#">Leave Applications</a>
-                                        <a class="dropdown-item text-dark" href="#">Employees</a>
+                                        <a class="dropdown-item text-dark" asp-controller="LeaveAllocation" asp-action="ListEmployees">Employees</a>
                                     </div>
                                 </li>
                             }
