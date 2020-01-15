@@ -158,6 +158,9 @@ namespace leave_management.Controllers
                 var startDate = Convert.ToDateTime(model.StartDate);
                 var endDate = Convert.ToDateTime(model.EndDate);
                 var leaveTypes = _leaveTypeRepo.FindAll();
+                var employee = _userManager.GetUserAsync(User).Result;
+                var allocation = _leaveAllocRepo.GetLeaveAllocationsByEmployeeAndType(employee.Id, model.LeaveTypeId);
+                int daysRequested = (int)(endDate - startDate).TotalDays;
                 var leaveTypeItems = leaveTypes.Select(q => new SelectListItem
                 {
                     Text = q.Name,
@@ -165,24 +168,21 @@ namespace leave_management.Controllers
                 });
                 model.LeaveTypes = leaveTypeItems;
 
-                if (!ModelState.IsValid)
+                
+                if(allocation == null)
                 {
-                    return View(model);
+                    ModelState.AddModelError("", "You Have No Days Left");
                 }
-
-                if(DateTime.Compare(startDate, endDate) > 1)
+                if (DateTime.Compare(startDate, endDate) > 1)
                 {
                     ModelState.AddModelError("", "Start Date cannot be further in the future than the End Date");
-                    return View(model);
                 }
-
-                var employee = _userManager.GetUserAsync(User).Result;
-                var allocation = _leaveAllocRepo.GetLeaveAllocationsByEmployeeAndType(employee.Id, model.LeaveTypeId);
-                int daysRequested = (int)(endDate - startDate).TotalDays;
-
-                if(daysRequested > allocation.NumberOfDays)
+                if (daysRequested > allocation.NumberOfDays)
                 {
                     ModelState.AddModelError("", "You Do Not Sufficient Days For This Request");
+                }
+                if (!ModelState.IsValid)
+                {
                     return View(model);
                 }
 
