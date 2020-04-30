@@ -15,6 +15,7 @@ using leave_management.Repository;
 using leave_management.Contracts;
 using AutoMapper;
 using leave_management.Mappings;
+using System;
 
 namespace leave_management
 {
@@ -30,10 +31,21 @@ namespace leave_management
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("AzureConnection")));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            }
 
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            
             services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
             services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
