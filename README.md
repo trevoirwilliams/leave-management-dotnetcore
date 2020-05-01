@@ -13,4 +13,4 @@ Learn to how:
 - Implement Website Layout using AdminLTE Theme
 - Setup GitHub for Source Control
 
-Website: [Trevoir Williams | Blog](http://bit.ly/2ux9hcn)
+Website: [Trevoir Williams | Blog](http://bit.ly/2ux9hcn) 
