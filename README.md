@@ -23,5 +23,3 @@ Website: [Trevoir Williams | Blog](http://bit.ly/2ux9hcn)
 - When completed, Run Website in Visual Studio to seed default Admin User
 - Login as admin user using: Username: admin@localhost.com | Password: P@ssword1
 
-# Deployment Details
-- 
