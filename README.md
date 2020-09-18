@@ -3,7 +3,7 @@
 Learn to how:
 - Build a fully data driven web application using cutting edge technology 
 - Connect to a Database using Entity Framework Core
-- Repository Pattern and Dependency Injection
+- Repository and Unit Of Work Patterns and Dependency Injection
 - Understand how the MVC (Models, Views and Controllers) Pattern works
 - Understand C# and .Net Core Web Syntax
 - Understand user Authentication using ASP.NET Core Identity
