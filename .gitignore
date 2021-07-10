@@ -338,3 +338,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/NDependOut1
+/NDependOut
+/leave-management1.ndproj
+/leave-management.ndproj
+/DependencyGraphSnapshot.svg

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace leave_management.Controllers
 {
@@ -41,7 +42,8 @@ namespace leave_management.Controllers
         public async Task<ActionResult> Index()
         {
             var leaveRequests = await _unitOfWork.LeaveRequests.FindAll(
-                includes: new List<string> { "RequestingEmployee", "LeaveType" });
+                includes: q => q.Include(x => x.RequestingEmployee).Include(x => x.LeaveType) 
+            );
 
             var leaveRequstsModel = _mapper.Map<List<LeaveRequestVM>>(leaveRequests);
             var model = new AdminLeaveRequestViewVM
@@ -61,7 +63,7 @@ namespace leave_management.Controllers
             var employeeid = employee.Id;
 
             var employeeAllocations = await _unitOfWork.LeaveAllocations.FindAll(q => q.EmployeeId == employeeid,
-                includes: new List<string> { "LeaveType" });
+                includes: q => q.Include(x => x.LeaveType));
 
             var employeeRequests = await _unitOfWork.LeaveRequests
                 .FindAll(q => q.RequestingEmployeeId == employeeid);
@@ -83,7 +85,7 @@ namespace leave_management.Controllers
         public async Task<ActionResult> Details(int id)
         {
             var leaveRequest = await _unitOfWork.LeaveRequests.Find(q => q.Id == id,
-                includes: new List<string> { "ApprovedBy", "RequestingEmployee", "LeaveType" });
+                includes: q => q.Include(x => x.RequestingEmployee).Include(x => x.LeaveType).Include(x => x.ApprovedBy));
             var model = _mapper.Map<LeaveRequestVM>(leaveRequest);
             return View(model);
         }
@@ -240,52 +242,6 @@ namespace leave_management.Controllers
 
             // send email to user 
             return RedirectToAction("MyLeave");
-        }
-
-        // GET: LeaveRequest/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: LeaveRequest/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LeaveRequest/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: LeaveRequest/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

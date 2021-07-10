@@ -1,6 +1,7 @@
 ﻿using leave_management.Contracts;
 using leave_management.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,15 +31,12 @@ namespace leave_management.Repository
             _db.Remove(entity);
         }
 
-        public async Task<T> Find(Expression<Func<T, bool>> expression, List<string> includes = null)
+        public async Task<T> Find(Expression<Func<T, bool>> expression, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null)
         {
             IQueryable<T> query = _db;
             if(includes != null)
             {
-                foreach (var table in includes)
-                {
-                    query = query.Include(table);
-                }
+                query = includes(query);
             }
 
             return await query.FirstOrDefaultAsync(expression);
@@ -46,8 +44,8 @@ namespace leave_management.Repository
         }
 
         public async Task<IList<T>> FindAll(Expression<Func<T, bool>> expression = null, 
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, 
-            List<string> includes = null
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null
             )
         {
             IQueryable<T> query = _db;
@@ -59,13 +57,10 @@ namespace leave_management.Repository
 
             if (includes != null)
             {
-                foreach (var table in includes)
-                {
-                    query = query.Include(table);
-                }
+                query = includes(query);
             }
 
-            if(orderBy != null)
+            if (orderBy != null)
             {
                 query = orderBy(query);
             }
