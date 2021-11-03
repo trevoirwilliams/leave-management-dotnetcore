@@ -30,9 +30,9 @@ namespace leave_management
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
         {
-            if(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            if(env.IsProduction())
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(
@@ -44,8 +44,6 @@ namespace leave_management
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             }
-
-            
 
             services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
             services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
