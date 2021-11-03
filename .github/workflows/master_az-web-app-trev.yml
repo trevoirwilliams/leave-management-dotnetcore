@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'az-web-app-trev'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_583CD3BD55E84539ABE67970D2F31A2D }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CFC90E923F0A406B8CA87301F9A7D2D8 }}
           package: .
